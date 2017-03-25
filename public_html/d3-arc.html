@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>d3 example</title>
+    <script src="./js/d3/d3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+</head>
+<body>
+
+<script>
+
+        var svgContainer = d3.select("body").append("svg")
+            .attr("width", 500)
+            .attr("height", 500)
+
+        var group = svgContainer.append("g")
+            .attr("transform", "translate(100, 100)");
+
+        var r = 100
+        var p = Math.PI * 2
+
+        var arc = d3.arc()
+            .innerRadius(r)
+            .outerRadius(r -20)
+            .startAngle(0)
+            .endAngle(p)
+
+        group.append("path")
+            .attr("d", arc)
+
+
+    // lets draw pie chart
+
+    var data = [10, 20, 30]
+    var color = d3.scaleOrdinal()
+        .range(["red", "green", "orange"]);
+
+    var svgContainer = d3.select("body").append("svg")
+        .attr("width", 1500)
+        .attr("height", 1500)
+
+    var group = svgContainer.append("g")
+        .attr("transform", "translate(400, 500)");
+
+    var r = 300
+
+    var arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(r)
+
+    var pieChart = d3.pie()
+        .value(function (d) {
+            return d;
+        });
+
+    var arcs = group.selectAll(".arc")
+        .data(pieChart(data))
+        .enter()
+        .append("g")
+        .attr("class", "arc")
+
+
+    arcs.append("path")
+        .attr("d", arc)
+        .attr("fill", function (d) {
+            return color(d.data);
+        });
+    arcs.append("text")
+        .attr("transform", function(d){
+            return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle")
+        .attr("font-size", "1.5cm")
+        .text(function (d) {
+            return d.data
+        })
+</script>
+</body>
+</html>
